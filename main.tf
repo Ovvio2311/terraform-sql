@@ -74,7 +74,7 @@ module "gke" {
   remove_default_node_pool= true
   network_policy          = true
   # master_version          = "1.29.1-gke.1425000"
-  kubernetes_version      = "1.29.1-gke.1425000"
+  kubernetes_version      = "1.29.1"
   release_channel         = "UNSPECIFIED"
   disable_legacy_metadata_endpoints = true
   master_authorized_networks = [
