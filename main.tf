@@ -69,7 +69,7 @@ module "gke" {
   create_service_account  = false
   enable_private_endpoint = true
   enable_private_nodes    = true
-  master_ipv4_cidr_block  = "10.0.0.16/28"
+  master_ipv4_cidr_block  = "10.0.1.1/28"
   deletion_protection     = false
   remove_default_node_pool= true
   network_policy          = true
