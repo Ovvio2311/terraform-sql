@@ -76,6 +76,7 @@ module "gke" {
   # master_version          = "1.29.1-gke.1425000"
   kubernetes_version      = "1.29"
   release_channel         = "UNSPECIFIED"
+  fleet_project           = "able-scope-413414"
   disable_legacy_metadata_endpoints = true
   master_authorized_networks = [
     {
