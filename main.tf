@@ -73,6 +73,7 @@ module "gke" {
   deletion_protection     = false
   remove_default_node_pool= true
   network_policy          = true
+  release_channel         = "UNSPECIFIED"
   disable_legacy_metadata_endpoints = true
   firewall_inbound_ports     = ["30443", "22"]
   master_authorized_networks = [
