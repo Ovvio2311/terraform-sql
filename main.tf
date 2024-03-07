@@ -69,8 +69,11 @@ module "gke" {
   create_service_account  = false
   enable_private_endpoint = true
   enable_private_nodes    = true
-  master_ipv4_cidr_block  = "10.0.0.0/20"
+  master_ipv4_cidr_block  = "10.0.0.29/28"
   deletion_protection     = false
+  remove_default_node_pool= true
+  network_policy          = true
+  disable_legacy_metadata_endpoints = true
   firewall_inbound_ports     = ["30443", "22"]
   master_authorized_networks = [
     {
@@ -78,6 +81,49 @@ module "gke" {
       display_name = "VPC"
     },
   ]
+
+  node_pools = [
+    {
+      name               = "fyp-node-pool"
+      machine_type       = "e2-medium"
+      image_type         = "UBUNTU_CONTAINERD"
+      node_version       = "1.29.1-gke.1425000"
+      min_count          = 1
+      max_count          = 1
+      disk_size_gb       = 100
+      disk_type          = "pd-balanced"
+      auto_repair        = true
+      auto_upgrade       = false
+      preemptible        = false
+      initial_node_count = 1
+    },
+  ]
+
+  
+
+  node_pools_labels = {
+
+    all = {
+
+    }
+    my-node-pool = {
+
+    }
+  }
+
+  node_pools_metadata = {
+    all = {}
+
+    my-node-pool = {}
+
+  }
+
+  node_pools_tags = {
+    all = []
+
+    my-node-pool = []
+
+  }
 }
 
 
