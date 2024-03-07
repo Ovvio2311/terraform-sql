@@ -73,6 +73,7 @@ module "gke" {
   deletion_protection     = false
   remove_default_node_pool= true
   network_policy          = true
+  kubernetes_version      = "1.29.1-gke.1425000"
   release_channel         = "UNSPECIFIED"
   disable_legacy_metadata_endpoints = true
   master_authorized_networks = [
@@ -87,7 +88,7 @@ module "gke" {
       name               = "fyp-node-pool"
       machine_type       = "e2-medium"
       image_type         = "UBUNTU_CONTAINERD"
-      kubernetes_version = "1.29.1-gke.1425000"
+      
       min_count          = 1
       max_count          = 1
       disk_size_gb       = 100
