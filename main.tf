@@ -131,7 +131,7 @@ module "firewall_rules" {
   source       = "terraform-google-modules/network/google//modules/firewall-rules"
   project_id   = var.project_id
   network_name = var.network
-
+  depends_on = [module.gcp-network]
   rules = [{
     name                    = "allow-ingress"
     description             = null
