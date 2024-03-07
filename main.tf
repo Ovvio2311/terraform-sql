@@ -125,5 +125,14 @@ module "gke" {
 
   }
 }
+resource "google_compute_firewall" "rules" {
+  project = "able-scope-413414"
+  name    = "vpc-firewall-rules"
+  network = var.network
 
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "30443", "5050", "2224", "3389"]
+  }
+}
 
