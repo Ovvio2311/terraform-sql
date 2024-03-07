@@ -125,16 +125,29 @@ module "gke" {
 
   }
 }
-resource "google_compute_firewall" "rules" {
-  project = "able-scope-413414"
-  name    = "vpc-firewall-rules"
-  network = var.network
+module "firewall_rules" {
+  source       = "terraform-google-modules/network/google//modules/firewall-rules"
+  project_id   = var.project_id
+  network_name = module.vpc.network_name
 
-  allow {
-    protocol = "tcp"
-    ports    = ["22", "30443", "5050", "2224", "3389"]
-  }
-}
-resource "google_compute_network" "rules" {
-  name = var.network
+  rules = [{
+    name                    = "allow-ingress"
+    description             = null
+    direction               = "INGRESS"
+    priority                = null
+    destination_ranges      = ["0.0.0.0/0"]
+    source_ranges           = ["0.0.0.0/0"]
+    source_tags             = null
+    source_service_accounts = null
+    target_tags             = null
+    target_service_accounts = null
+    allow = [{
+      protocol = "tcp"
+      ports    = ["22","5050","3389","30443","2224"]
+    }]
+    deny = []
+    log_config = {
+      metadata = "INCLUDE_ALL_METADATA"
+    }
+  }]
 }
