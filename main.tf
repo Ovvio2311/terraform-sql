@@ -75,7 +75,6 @@ module "gke" {
   network_policy          = true
   release_channel         = "UNSPECIFIED"
   disable_legacy_metadata_endpoints = true
-  firewall_inbound_ports     = ["30443", "22"]
   master_authorized_networks = [
     {
       cidr_block   = data.google_compute_subnetwork.subnetwork.ip_cidr_range
@@ -88,7 +87,7 @@ module "gke" {
       name               = "fyp-node-pool"
       machine_type       = "e2-medium"
       image_type         = "UBUNTU_CONTAINERD"
-      node_version       = "1.29.1-gke.1425000"
+      min_master_version = "1.29.1-gke.1425000"
       min_count          = 1
       max_count          = 1
       disk_size_gb       = 100
