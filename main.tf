@@ -69,7 +69,7 @@ module "gke" {
   create_service_account  = false
   enable_private_endpoint = true
   enable_private_nodes    = true
-  master_ipv4_cidr_block  = "10.0.0.29/28"
+  master_ipv4_cidr_block  = "10.0.0.16/28"
   deletion_protection     = false
   remove_default_node_pool= true
   network_policy          = true
@@ -135,6 +135,6 @@ resource "google_compute_firewall" "rules" {
     ports    = ["22", "30443", "5050", "2224", "3389"]
   }
 }
-resource "google_compute_network" "fyp-vpc-network" {
+resource "google_compute_network" "rules" {
   name = var.network
 }
