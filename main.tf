@@ -87,7 +87,7 @@ module "gke" {
       name               = "fyp-node-pool"
       machine_type       = "e2-medium"
       image_type         = "UBUNTU_CONTAINERD"
-      min_master_version = "1.29.1-gke.1425000"
+      kubernetes_version = "1.29.1-gke.1425000"
       min_count          = 1
       max_count          = 1
       disk_size_gb       = 100
