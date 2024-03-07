@@ -135,4 +135,6 @@ resource "google_compute_firewall" "rules" {
     ports    = ["22", "30443", "5050", "2224", "3389"]
   }
 }
-
+resource "google_compute_network" "fyp-vpc-network" {
+  name = var.network
+}
