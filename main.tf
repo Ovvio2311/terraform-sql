@@ -111,12 +111,27 @@ module "gke" {
       preemptible        = false
       initial_node_count = 1
       service_account = google_service_account.default.email
-      oauth_scopes    = [
-      "https://www.googleapis.com/auth/cloud-platform"
-      ]
+      
     },
   ]
 
+  node_pools_oauth_scopes = {
+    all = [
+      "https://www.googleapis.com/auth/trace.append",
+      "https://www.googleapis.com/auth/service.management.readonly",
+      "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/servicecontrol",
+    ]
+
+    fyp-node-pool = [
+      "https://www.googleapis.com/auth/trace.append",
+      "https://www.googleapis.com/auth/service.management.readonly",
+      "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/servicecontrol",
+    ]
+  }
   
 
   node_pools_labels = {
