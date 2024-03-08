@@ -161,8 +161,8 @@ module "firewall_rules" {
     log_config = {
       metadata = "INCLUDE_ALL_METADATA"
     }
-  },
-  {
+  }]
+  [{
     name                    = "allow-http"
     description             = null
     direction               = "INGRESS"
@@ -176,7 +176,7 @@ module "firewall_rules" {
     allow = [{
       protocol = "tcp"
       ports    = ["80","443"]
-    }]
+  }]
 }
 
 resource "google_compute_router" "router" {
