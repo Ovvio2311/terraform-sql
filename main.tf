@@ -1,27 +1,30 @@
 data "google_client_config" "default" {
   # depends_on = [module.gke]
 }
-/*data "google_client_config" "aftercreate" {
-  depends_on = [module.gke]
-}*/
+data "google_container_cluster" "my_cluster" {
+  name     = var.cluster_name
+  location = "us-central1"
+}
 provider "google" {
-  /*credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
+  credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
   project = "able-scope-413414"
   region  = "us-central1"
-  zone    = "us-central1-c"*/
+  zone    = "us-central1-c"
 }
 provider "kubernetes" {
-  host                   = "https://${module.gke.endpoint}"
+  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  # host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
+  cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
 }
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
     host                   = "https://${module.gke.endpoint}"
     token                  = data.google_client_config.default.access_token
-    cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
+    # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
+    cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
     # cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
   }
