@@ -142,40 +142,42 @@ module "firewall_rules" {
   project_id   = var.project_id
   network_name = var.network
   depends_on = [module.gcp-network]
-  rules = [{
-    name                    = "allow-ingress"
-    description             = null
-    direction               = "INGRESS"
-    priority                = null
-    destination_ranges      = ["0.0.0.0/0"]
-    source_ranges           = ["0.0.0.0/0"]
-    source_tags             = null
-    source_service_accounts = null
-    target_tags             = null
-    target_service_accounts = null
-    allow = [{
-      protocol = "tcp"
-      ports    = ["22","5050","3389","30443","2224","9443"]
-    }]
-    deny = []
-    log_config = {
-      metadata = "INCLUDE_ALL_METADATA"
-    }
-  }]
-  [{
-    name                    = "allow-http"
-    description             = null
-    direction               = "INGRESS"
-    priority                = null
-    destination_ranges      = ["0.0.0.0/0"]
-    source_ranges           = ["0.0.0.0/0"]
-    source_tags             = null
-    source_service_accounts = null
-    target_tags             = null
-    target_service_accounts = null
-    allow = [{
+  rules = [
+    {
+      name                    = "allow-ingress"
+      description             = null
+      direction               = "INGRESS"
+      priority                = null
+      destination_ranges      = ["0.0.0.0/0"]
+      source_ranges           = ["0.0.0.0/0"]
+      source_tags             = null
+      source_service_accounts = null
+      target_tags             = null
+      target_service_accounts = null
+      allow = [{
+        protocol = "tcp"
+        ports    = ["22","5050","3389","30443","2224","9443"]
+      }]
+      deny = []
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
+    },
+    {
+      name                    = "allow-http"
+      description             = null
+      direction               = "INGRESS"
+      priority                = null
+      destination_ranges      = ["0.0.0.0/0"]
+      source_ranges           = ["0.0.0.0/0"]
+      source_tags             = null
+      source_service_accounts = null
+      target_tags             = null
+      target_service_accounts = null
+      allow = [{
       protocol = "tcp"
       ports    = ["80","443"]
+    }]
   }]
 }
 
