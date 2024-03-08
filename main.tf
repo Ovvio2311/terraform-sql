@@ -1,5 +1,5 @@
 data "google_client_config" "default" {
-  depends_on = [module.gke]
+  # depends_on = [module.gke]
 }
 
 provider "google" {
