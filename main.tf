@@ -1,11 +1,11 @@
 data "google_client_config" "default" {
   # depends_on = [module.gke]
 }
-data "google_container_cluster" "primary" {
+/*data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1"
   depends_on = [module.gke]
-}
+}*/
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
@@ -13,24 +13,40 @@ provider "google" {
   region  = "us-central1"
   zone    = "us-central1-c"
 }
-provider "kubernetes" {
+/*provider "kubernetes" {
   host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
   # host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
+}*/
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
     # host                   = "https://${module.gke.endpoint}"
-    host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
-    token                  = data.google_client_config.default.access_token
+    # host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+    # token                  = data.google_client_config.default.access_token
     # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
-    cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
+    # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
     # cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
   }
 }
+
+module "gke_auth" {
+  source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
+  depends_on   = [module.gke]
+  project_id   = var.project_id
+  location     = module.gke.location
+  cluster_name = module.gke.name
+}
+resource "local_file" "kubeconfig" {
+  content  = module.gke_auth.kubeconfig_raw
+  filename = "kubeconfig-${var.env_name}"
+}
+
 
 module "gcp-network" {
   source  = "terraform-google-modules/network/google"
