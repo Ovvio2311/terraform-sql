@@ -263,7 +263,7 @@ resource "google_compute_router_nat" "nat" {
 resource "google_compute_address" "static" {
   name         = "nginx-controller"
   address_type = "EXTERNAL"
-  depends_on = [helm_release.nginx_ingress_controller]
+  
   # purpose      = "GCE_ENDPOINT"
 }
 locals {
