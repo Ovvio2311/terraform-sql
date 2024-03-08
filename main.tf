@@ -13,22 +13,33 @@ provider "google" {
   region  = "us-central1"
   zone    = "us-central1-c"
 }
-/*provider "kubernetes" {
-  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
-  # host                   = "https://${module.gke.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
-}*/
 provider "kubernetes" {
-  config_path = "~/.kube/config"
+  # host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  host                   = "https://${module.gke.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.gke.cluster_ca_certificate)
+  exec {
+    api_version = "client.authenication.k8s.io/v1alpha1"
+    args        = ["container", "clusters", "get-credentials", var.cluster_name], "--region", "us-central1", "--project", var.project_id]
+    commend     = "gcloud"
+  }
+  # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
 }
+/*provider "kubernetes" {
+  config_path = "~/.kube/config"
+}*/
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
-    # host                   = "https://${module.gke.endpoint}"
+    # config_path = "~/.kube/config"
+    host                   = "https://${module.gke.endpoint}"
     # host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
-    # token                  = data.google_client_config.default.access_token
-    # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
+    token                  = data.google_client_config.default.access_token
+    cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
+    exec {
+      api_version = "client.authenication.k8s.io/v1alpha1"
+      args        = ["container", "clusters", "get-credentials", var.cluster_name], "--region", "us-central1", "--project", var.project_id]
+      commend     = "gcloud"
+    }
     # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
     # cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
@@ -41,10 +52,12 @@ module "gke_auth" {
   project_id   = var.project_id
   location     = module.gke.location
   cluster_name = module.gke.name
+  depends_on   = [module.gke]
 }
 resource "local_file" "kubeconfig" {
   content  = module.gke_auth.kubeconfig_raw
   filename = "kubeconfig-fyp"
+  depends_on = [module.gke_auth]
 }
 
 
@@ -240,7 +253,7 @@ resource "google_compute_router_nat" "nat" {
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  depends_on                         = [module.gcp-network]
+  depends_on                         = [google_compute_router.router]
   log_config {
     enable = true
     filter = "ERRORS_ONLY"
@@ -250,6 +263,7 @@ resource "google_compute_router_nat" "nat" {
 resource "google_compute_address" "static" {
   name         = "nginx-controller"
   address_type = "EXTERNAL"
+  depends_on = [helm_release.nginx_ingress_controller]
   # purpose      = "GCE_ENDPOINT"
 }
 locals {
