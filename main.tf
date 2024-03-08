@@ -3,11 +3,11 @@ data "google_client_config" "default" {
 }
 
 provider "google" {
-  /*credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
+  credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
   project = "able-scope-413414"
   region  = "us-central1"
-  zone    = "us-central1-c"*/
+  zone    = "us-central1-c"
 }
 provider "kubernetes" {
   host                   = "https://${module.gke.endpoint}"
