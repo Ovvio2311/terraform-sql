@@ -36,3 +36,8 @@ variable "ip_range_services_name" {
   description = "The secondary ip range to use for services"
   default     = "ip-range-svc"
 }
+variable "ip_address" {
+  type        = string
+  description = "External Static Address for loadbalancer (Doesn't work with AWS)"
+  default     = null
+}
