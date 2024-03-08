@@ -79,7 +79,7 @@ module "gke" {
   http_load_balancing     = false
   enable_private_endpoint = true
   enable_private_nodes    = true
-  master_ipv4_cidr_block  = "10.0.1.0/28"
+  # master_ipv4_cidr_block  = "10.0.1.0/28"
   deletion_protection     = false
   remove_default_node_pool= true
   network_policy          = true
@@ -185,7 +185,7 @@ module "firewall_rules" {
 resource "google_compute_router" "router" {
   name    = "fyp-router"
   region  = data.google_compute_subnetwork.subnetwork.region
-  network = data.google_compute_subnetwork.subnetwork.name
+  network = var.network
   depends_on = [module.gcp-network]
   bgp {
     asn = 64514
@@ -206,7 +206,7 @@ resource "google_compute_router_nat" "nat" {
 resource "google_compute_address" "static" {
   name         = "nginx-controller"
   address_type = "EXTERNAL"
-  purpose      = "GCE_ENDPOINT"
+  # purpose      = "GCE_ENDPOINT"
 }
 locals {
   helm_chart      = "ingress-nginx"
