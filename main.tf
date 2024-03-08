@@ -17,7 +17,7 @@ provider "kubernetes" {
   # host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
   host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.gke.cluster_ca_certificate)
+  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
   exec {
     api_version = "client.authenication.k8s.io/v1alpha1"
     args        = ["container", "clusters", "get-credentials", var.cluster_name, "--region", "us-central1", "--project", var.project_id]
