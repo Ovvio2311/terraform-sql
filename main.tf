@@ -212,10 +212,10 @@ locals {
   helm_chart      = "ingress-nginx"
   helm_repository = "https://kubernetes.github.io/ingress-nginx"
 
-  loadBalancerIP = var.ip_address == null ? [] : [
+  loadBalancerIP = google_compute_address.static.address == null ? [] : [
     {
-      name  = "controller.service.loadBalancerIP"
-      value = var.ip_address
+      name  = "nginx-controller"
+      value = google_compute_address.static.address
     }
   ]
 }
