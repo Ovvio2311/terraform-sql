@@ -161,7 +161,7 @@ module "firewall_rules" {
     log_config = {
       metadata = "INCLUDE_ALL_METADATA"
     }
-  }
+  },
   {
     name                    = "allow-http"
     description             = null
