@@ -91,7 +91,7 @@ module "gke" {
   disable_legacy_metadata_endpoints = true
   master_authorized_networks = [
     {
-      cidr_block   = 10.0.0.0/24
+      cidr_block   = "10.0.0.0/24"
       display_name = "VPC"
     },
   ]
