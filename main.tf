@@ -15,6 +15,7 @@ provider "kubernetes" {
 }
 provider "helm" {
   kubernetes {
+    config_path = "~/.kube/config"
     host                   = "https://${module.gke.endpoint}"
     token                  = data.google_client_config.default.access_token
     client_certificate     = base64decode(module.gke.ca_certificate)
@@ -207,18 +208,25 @@ resource "google_compute_address" "static" {
   address_type = "EXTERNAL"
   purpose      = "GCE_ENDPOINT"
 }
+locals {
+  helm_chart      = "ingress-nginx"
+  helm_repository = "https://kubernetes.github.io/ingress-nginx"
 
+  loadBalancerIP = var.ip_address == null ? [] : [
+    {
+      name  = "controller.service.loadBalancerIP"
+      value = var.ip_address
+    }
+  ]
+}
 resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
   namespace  = "ingress"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
-  values     = ["${file("values.yaml")}"]
+  # values     = ["${file("values.yaml")}"]
   create_namespace = true
-  # ip_address = google_compute_address.static.address
+  ip_address = google_compute_address.static.address
   depends_on = [module.gke]
-  loadBalancerIP = {
-    name = google_compute_address.static.name
-    value = google_compute_address.static.address
-  }
+
 }
