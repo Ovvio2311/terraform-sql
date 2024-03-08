@@ -20,7 +20,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke.cluster_ca_certificate)
   exec {
     api_version = "client.authenication.k8s.io/v1alpha1"
-    args        = ["container", "clusters", "get-credentials", var.cluster_name], "--region", "us-central1", "--project", var.project_id]
+    args        = ["container", "clusters", "get-credentials", var.cluster_name, "--region", "us-central1", "--project", var.project_id]
     commend     = "gcloud"
   }
   # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
