@@ -202,6 +202,11 @@ resource "google_compute_router_nat" "nat" {
     filter = "ERRORS_ONLY"
   }
 }
+resource "google_compute_address" "static" {
+  name         = "nginx-controller"
+  address_type = "EXTERNAL"
+  purpose      = "GCE_ENDPOINT"
+}
 
 resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
@@ -210,5 +215,6 @@ resource "helm_release" "nginx_ingress_controller" {
   chart      = "ingress-nginx"
   values     = ["${file("values.yaml")}"]
   create_namespace = true
+  ip_address = google_compute_address.static.address
   depends_on = [module.gke]
 }
