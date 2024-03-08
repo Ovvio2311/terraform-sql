@@ -6,7 +6,7 @@ data "google_container_cluster" "my_cluster" {
   location = "us-central1"
 }
 provider "google" {
-  credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
+  # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
   project = "able-scope-413414"
   region  = "us-central1"
