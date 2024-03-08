@@ -1,13 +1,15 @@
 data "google_client_config" "default" {
   # depends_on = [module.gke]
 }
-
+/*data "google_client_config" "aftercreate" {
+  depends_on = [module.gke]
+}*/
 provider "google" {
-  credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
+  /*credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
   project = "able-scope-413414"
   region  = "us-central1"
-  zone    = "us-central1-c"
+  zone    = "us-central1-c"*/
 }
 provider "kubernetes" {
   host                   = "https://${module.gke.endpoint}"
@@ -222,6 +224,14 @@ resource "google_compute_router_nat" "nat" {
     enable = true
     filter = "ERRORS_ONLY"
   }
+}
+resource "google_project_iam_binding" "sa_binding_writer" {
+  project = var.project_id
+  role    = "roles/monitoring.metricWriter"
+  members = [
+    "serviceAccount:${google_service_account.sa.email}" 
+    ### in your case it will be "serviceAccount:${google_service_account.your-serviceaccount-name.email}"
+  ]
 }
 resource "google_compute_address" "static" {
   name         = "nginx-controller"
