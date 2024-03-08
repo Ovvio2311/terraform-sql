@@ -4,6 +4,7 @@ data "google_client_config" "default" {
 data "google_container_cluster" "my_cluster" {
   name     = var.cluster_name
   location = "us-central1"
+  depends_on = [module.gke]
 }
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
