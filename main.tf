@@ -77,9 +77,9 @@ module "gke" {
   ip_range_services       = var.ip_range_services_name
   create_service_account  = false
   http_load_balancing     = false
-  enable_private_endpoint = true
-  enable_private_nodes    = true
-  master_ipv4_cidr_block  = "10.0.1.0/28"
+  enable_private_endpoint = false
+  enable_private_nodes    = false
+  # master_ipv4_cidr_block  = "10.0.1.0/28"
   deletion_protection     = false
   remove_default_node_pool= true
   network_policy          = true
@@ -88,12 +88,12 @@ module "gke" {
   release_channel         = "UNSPECIFIED"
   fleet_project           = "able-scope-413414"
   disable_legacy_metadata_endpoints = true
-  master_authorized_networks = [
+  /*master_authorized_networks = [
     {
       cidr_block   = data.google_compute_subnetwork.subnetwork.ip_cidr_range
       display_name = "VPC"
     },
-  ]
+  ]*/
 
   node_pools = [
     {
