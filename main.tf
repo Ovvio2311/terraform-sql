@@ -21,7 +21,7 @@ provider "kubernetes" {
   exec {
     api_version = "client.authenication.k8s.io/v1alpha1"
     args        = ["container", "clusters", "get-credentials", var.cluster_name, "--region", "us-central1", "--project", var.project_id]
-    commend     = "gcloud"
+    command     = "gcloud"
   }
   # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
 }
@@ -38,7 +38,7 @@ provider "helm" {
     exec {
       api_version = "client.authenication.k8s.io/v1alpha1"
       args        = ["container", "clusters", "get-credentials", var.cluster_name, "--region", "us-central1", "--project", var.project_id]
-      commend     = "gcloud"
+      command     = "gcloud"
     }
     # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
