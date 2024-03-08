@@ -110,6 +110,10 @@ module "gke" {
       auto_upgrade       = false
       preemptible        = false
       initial_node_count = 1
+      service_account = google_service_account.default.email
+      oauth_scopes    = [
+      "https://www.googleapis.com/auth/cloud-platform"
+      ]
     },
   ]
 
