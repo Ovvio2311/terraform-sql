@@ -169,5 +169,6 @@ resource "helm_release" "nginx_ingress_controller" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   values     = ["${file("values.yaml")}"]
+  create_namespace = true
   depends_on = [module.gke]
 }
