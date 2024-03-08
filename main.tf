@@ -229,14 +229,7 @@ resource "google_compute_router_nat" "nat" {
     filter = "ERRORS_ONLY"
   }
 }
-resource "google_project_iam_binding" "sa_binding_writer" {
-  project = var.project_id
-  role    = "roles/monitoring.metricWriter"
-  members = [
-    "serviceAccount:${google_service_account.sa.email}" 
-    ### in your case it will be "serviceAccount:${google_service_account.your-serviceaccount-name.email}"
-  ]
-}
+
 resource "google_compute_address" "static" {
   name         = "nginx-controller"
   address_type = "EXTERNAL"
