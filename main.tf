@@ -183,8 +183,8 @@ module "firewall_rules" {
 
 resource "google_compute_router" "router" {
   name    = "fyp-router"
-  region  = google_compute_subnetwork.subnetwork.region
-  network = google_compute_network.subnetwork.name
+  region  = data.google_compute_subnetwork.subnetwork.region
+  network = data.google_compute_network.subnetwork.name
   depends_on = [module.gcp-network]
   bgp {
     asn = 64514
