@@ -162,6 +162,21 @@ module "firewall_rules" {
       metadata = "INCLUDE_ALL_METADATA"
     }
   }]
+  [{
+    name                    = "allow-http"
+    description             = null
+    direction               = "INGRESS"
+    priority                = null
+    destination_ranges      = ["0.0.0.0/0"]
+    source_ranges           = ["0.0.0.0/0"]
+    source_tags             = null
+    source_service_accounts = null
+    target_tags             = null
+    target_service_accounts = null
+    allow = [{
+      protocol = "tcp"
+      ports    = ["80","443"]
+    }]
 }
 
 resource "google_compute_router" "router" {
