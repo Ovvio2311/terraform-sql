@@ -1,7 +1,6 @@
 data "google_client_config" "default" {
 }
 
-
 provider "google" {
   credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
@@ -13,6 +12,15 @@ provider "kubernetes" {
   host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
+}
+provider "helm" {
+  kubernetes {
+    host                   = google_container_cluster.primary.endpoint
+    token                  = data.google_client_config.main.access_token
+    client_certificate     = base64decode(google_container_cluster.primary.master_auth.0.client_certificate)
+    client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
+    cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
+  }
 }
 
 module "gcp-network" {
@@ -155,10 +163,11 @@ module "firewall_rules" {
     }
   }]
 }
-/*resource "helm_release" "nginx_ingress_controller" {
+resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
+  namespace  = "ingress"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   values     = ["${file("values.yaml")}"]
   depends_on = [module.gke]
-}*/
+}
