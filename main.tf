@@ -1,7 +1,7 @@
 data "google_client_config" "default" {
   # depends_on = [module.gke]
 }
-data "google_container_cluster" "my_cluster" {
+data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1"
   depends_on = [module.gke]
