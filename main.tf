@@ -1,5 +1,5 @@
 data "google_client_config" "default" {
-  # depends_on = [module.gke]
+  
 }
 /*data "google_container_cluster" "primary" {
   name     = var.cluster_name
@@ -290,11 +290,11 @@ resource "helm_release" "nginx_ingress_controller" {
   create_namespace = true
   # ip_address = google_compute_address.static.address
   depends_on = [module.gke]
-  dynamic "set" {
+  /*dynamic "set" {
     for_each = local.loadBalancerIP
     content {
       name  = set.value.name
       value = set.value.value
     }
-  }
+  }*/
 }
