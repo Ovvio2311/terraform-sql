@@ -19,7 +19,7 @@ provider "kubernetes" {
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
   exec {
-    api_version = "client.authentication.k8s.io/v1bata1"
+    api_version = "client.authentication.k8s.io/v1beta1"
     # args        = ["container", "clusters", "get-credentials", var.cluster_name, "--region", "us-central1", "--project", var.project_id]
     # command     = "gcloud"
     args=[]
@@ -38,7 +38,7 @@ provider "helm" {
     token                  = data.google_client_config.default.access_token
     cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
     exec {
-      api_version = "client.authentication.k8s.io/v1bata1"
+      api_version = "client.authentication.k8s.io/v1beta1"
       # args        = ["container", "clusters", "get-credentials", var.cluster_name, "--region", "us-central1", "--project", var.project_id]
       args=[]
       command="gke-gloud-auth-plugin"
