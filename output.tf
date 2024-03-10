@@ -47,5 +47,5 @@ output "peering_name" {
 }
 output "project" {
   value = nonsensitive(data.google_client_config.default)
-  sensitive = false
+  
 }
