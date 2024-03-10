@@ -45,3 +45,7 @@ output "peering_name" {
   description = "The name of the peering between this cluster and the Google owned VPC."
   value       = module.gke.peering_name
 }
+output "project" {
+  value = data.google_client_config.default
+  sensitive = false
+}
