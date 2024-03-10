@@ -49,3 +49,6 @@ output "project" {
   value = data.google_client_config.default
   sensitive = true
 }
+output "datacluster" {
+  value       = data.google_container_cluster.my_cluster
+}
