@@ -50,5 +50,5 @@ output "project" {
   sensitive = true
 }
 output "datacluster" {
-  value       = data.google_container_cluster.my_cluster
+  value       = data.google_container_cluster.fyp-vpc-cluster
 }
