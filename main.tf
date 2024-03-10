@@ -105,7 +105,7 @@ data "google_compute_subnetwork" "subnetwork" {
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   version = "~> 30.0"
-
+  service_account= "Compute Engine default service account"
   project_id = var.project_id
   name       = var.cluster_name
   regional   = false
