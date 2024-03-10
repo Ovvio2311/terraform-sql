@@ -20,10 +20,10 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
-    command     = "gcloud"
-    # args=[]
-    # command="gke-gcloud-auth-plugin"
+    # args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
+    # command     = "gcloud"
+    args=[]
+    command="gke-gcloud-auth-plugin"
   }
   # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
 }
@@ -38,11 +38,11 @@ provider "helm" {
     token                  = data.google_client_config.default.access_token
     cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
     exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
-      # args=[]
-      # command="gke-gloud-auth-plugin"
-      command     = "gcloud"
+      # api_version = "client.authentication.k8s.io/v1beta1"
+      # args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
+      args=[]
+      command="gke-gloud-auth-plugin"
+      # command     = "gcloud"
     }
     # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
@@ -283,17 +283,17 @@ locals {
 }
 resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
-  namespace  = "ingress"
+  namespace  = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
-  # values     = ["${file("values.yaml")}"]
+  values     = ["${file("values.yaml")}"]
   create_namespace = true
   # ip_address = google_compute_address.static.address
   depends_on = [module.gke]
-  set {
+  /*set {
     name  = "service.type"
     value = "ClusterIP"
-  }
+  }*/
   /*dynamic "set" {
     for_each = local.loadBalancerIP
     content {
