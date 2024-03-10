@@ -3,7 +3,7 @@ data "google_client_config" "default" {
 }
 data "google_container_cluster" "primary" {
   name     = var.cluster_name
-  location = "us-central1"
+  location = "us-central1-c"
   # depends_on = [module.gke]
 }
 provider "google" {
