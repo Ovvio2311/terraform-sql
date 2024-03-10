@@ -290,15 +290,15 @@ resource "helm_release" "nginx_ingress_controller" {
   create_namespace = true
   # ip_address = google_compute_address.static.address
   depends_on = [module.gke]
-  /*set {
+  set {
     name  = "service.type"
     value = "ClusterIP"
-  }*/
-  /*dynamic "set" {
+  }
+  dynamic "set" {
     for_each = local.loadBalancerIP
     content {
       name  = set.value.name
       value = set.value.value
     }
-  }*/
+  }
 }*/
