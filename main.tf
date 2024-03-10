@@ -270,7 +270,7 @@ resource "google_compute_address" "static" {
   
   # purpose      = "GCE_ENDPOINT"
 }
-locals {
+/*locals {
   helm_chart      = "ingress-nginx"
   helm_repository = "https://kubernetes.github.io/ingress-nginx"
 
@@ -301,4 +301,4 @@ resource "helm_release" "nginx_ingress_controller" {
       value = set.value.value
     }
   }*/
-}
+}*/
