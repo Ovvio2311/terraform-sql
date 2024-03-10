@@ -46,6 +46,6 @@ output "peering_name" {
   value       = module.gke.peering_name
 }
 output "project" {
-  value = nonsensitive(data.google_client_config.default)
-  
+  value = data.google_client_config.default
+  sensitive = true
 }
