@@ -1,11 +1,11 @@
 data "google_client_config" "default" {
   
 }
-/*data "google_container_cluster" "primary" {
+data "google_container_cluster" "my_cluster" {
   name     = var.cluster_name
   location = "us-central1"
-  depends_on = [module.gke]
-}*/
+  # depends_on = [module.gke]
+}
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
 
@@ -14,10 +14,10 @@ provider "google" {
   zone    = "us-central1-c"
 }
 provider "kubernetes" {
-  # host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
-  host                   = "https://${module.gke.endpoint}"
+  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  # host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
+  # cluster_ca_certificate = base64decode(module.gke.ca_certificate)
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     # args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
@@ -25,7 +25,7 @@ provider "kubernetes" {
     args=[]
     command="gke-gcloud-auth-plugin"
   }
-  # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
+  cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
 }
 /*provider "kubernetes" {
   config_path = "~/.kube/config"
@@ -33,10 +33,10 @@ provider "kubernetes" {
 provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
-    host                   = "https://${module.gke.endpoint}"
-    # host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+    # host                   = "https://${module.gke.endpoint}"
+    host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
     token                  = data.google_client_config.default.access_token
-    cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
+    # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       # args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
@@ -44,7 +44,7 @@ provider "helm" {
       command="gke-gloud-auth-plugin"
       # command     = "gcloud"
     }
-    # cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
+    cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
     # cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
   }
@@ -280,7 +280,7 @@ resource "google_compute_address" "static" {
       value = google_compute_address.static.address
     }
   ]
-}
+}*/
 resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
   namespace  = "ingress-nginx"
@@ -289,8 +289,8 @@ resource "helm_release" "nginx_ingress_controller" {
   values     = ["${file("values.yaml")}"]
   create_namespace = true
   # ip_address = google_compute_address.static.address
-  depends_on = [module.gke]
-  set {
+  # depends_on = [module.gke]
+  /*set {
     name  = "service.type"
     value = "ClusterIP"
   }
@@ -300,5 +300,5 @@ resource "helm_release" "nginx_ingress_controller" {
       name  = set.value.name
       value = set.value.value
     }
-  }
-}*/
+  }*/
+}
