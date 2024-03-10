@@ -1,7 +1,7 @@
 data "google_client_config" "default" {
   
 }
-data "google_container_cluster" "my_cluster" {
+data "google_container_cluster" "fyp-vpc-cluster" {
   name     = var.cluster_name
   location = "us-central1"
   # depends_on = [module.gke]
@@ -14,7 +14,7 @@ provider "google" {
   zone    = "us-central1-c"
 }
 provider "kubernetes" {
-  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  host  = "https://${data.google_container_cluster.fyp-vpc-cluster.endpoint}"
   # host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
   # cluster_ca_certificate = base64decode(module.gke.ca_certificate)
@@ -34,7 +34,7 @@ provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
     # host                   = "https://${module.gke.endpoint}"
-    host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+    host  = "https://${data.google_container_cluster.fyp-vpc-cluster.endpoint}"
     token                  = data.google_client_config.default.access_token
     # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
     exec {
@@ -44,7 +44,7 @@ provider "helm" {
       command="gke-gloud-auth-plugin"
       # command     = "gcloud"
     }
-    cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
+    cluster_ca_certificate = base64decode(data.google_container_cluster.fyp-vpc-cluster.master_auth[0].cluster_ca_certificate)
     # client_key             = base64decode(google_container_cluster.primary.master_auth.0.client_key)
     # cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
   }
