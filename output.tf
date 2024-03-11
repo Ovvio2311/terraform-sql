@@ -52,3 +52,6 @@ output "project" {
 output "datacluster" {
   value       = data.google_container_cluster.primary
 }
+output "gke_auth" {
+  value = module.gke_auth
+}
