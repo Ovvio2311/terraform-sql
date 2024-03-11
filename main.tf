@@ -279,7 +279,7 @@ resource "google_compute_address" "static" {
     }
   ]
 }*/
-/*resource "helm_release" "nginx_ingress_controller" {
+resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
   namespace  = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -292,11 +292,11 @@ resource "google_compute_address" "static" {
     name  = "service.type"
     value = "ClusterIP"
   }
-  dynamic "set" {
+  /*dynamic "set" {
     for_each = local.loadBalancerIP
     content {
       name  = set.value.name
       value = set.value.value
     }
-  }
-}*/
+  }*/
+}
