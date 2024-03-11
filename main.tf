@@ -1,6 +1,9 @@
 data "google_client_config" "default" {
   
 }
+data "google_client_config" "update" {
+  depends_on = [module.gke]
+}
 data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-c"
@@ -33,7 +36,7 @@ provider "helm" {
     # config_path = "~/.kube/config"
     # host                   = "https://${module.gke.endpoint}"
     host  = "https://${data.google_container_cluster.primary.endpoint}"
-    token                  = data.google_client_config.default.access_token
+    token                  = data.google_client_config.update.access_token
     # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
