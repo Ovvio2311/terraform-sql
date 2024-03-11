@@ -1,5 +1,5 @@
-data "google_client_config" "default" {
-  
+
+data "google_client_config" "default" {  
 }
 data "google_client_config" "update" {
   depends_on = [module.gke]
@@ -22,12 +22,7 @@ provider "google" {
 }
 provider "kubernetes" {
   host  = "https://${data.google_container_cluster.primary.endpoint}"  
-  token                  = data.google_client_config.default.access_token  
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
-    command     = "gcloud"
-  }
+  token                  = data.google_client_config.default.access_token    
   cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
   # client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
