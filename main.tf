@@ -2,12 +2,12 @@ data "google_client_config" "default" {
   
 }
 data "google_client_config" "update" {
-  # depends_on = [module.gke]
+  depends_on = [module.gke]
 }
 data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-c"
-  # depends_on = [module.gke]
+  depends_on = [module.gke]
 }
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
@@ -56,16 +56,15 @@ provider "helm" {
 module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
   depends_on   = [module.gke]
-  project_id   = var.project_id
-  # location = "us-central1-c"
+  project_id   = var.project_id  
   location     = module.gke.location
   cluster_name = module.gke.name
-  # cluster_name = var.cluster_name
+  
   
 }
 resource "local_file" "kubeconfig" {
   content  = module.gke_auth.kubeconfig_raw
-  filename = "kubeconfig-fyp-new"
+  filename = "kubeconfig"
   depends_on = [module.gke_auth]
 }
 
@@ -292,12 +291,11 @@ resource "helm_release" "nginx_ingress_controller" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   values     = ["${file("values.yaml")}"]
-  create_namespace = true
-  
-  # depends_on = [module.gke]
+  create_namespace = true  
+  depends_on = [module.gke]
   
   set {    
       name  = "loadBalancerIP"
-      value = "34.133.82.12"    
+      value = google_compute_address.static.address    
   }
 }
