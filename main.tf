@@ -116,7 +116,7 @@ module "gke" {
   subnetwork              = module.gcp-network.subnets_names[0]
   ip_range_pods           = var.ip_range_pods_name
   ip_range_services       = var.ip_range_services_name
-  network_policy          = false
+  
   create_service_account  = false
   http_load_balancing     = false
   enable_private_endpoint = false
@@ -124,7 +124,7 @@ module "gke" {
   master_ipv4_cidr_block  = "10.0.0.0/24"
   deletion_protection     = false
   remove_default_node_pool= true
-  network_policy          = true
+  network_policy          = false
   # master_version          = "1.29.1-gke.1425000"
   kubernetes_version      = "1.29"
   release_channel         = "UNSPECIFIED"
