@@ -63,7 +63,7 @@ resource "local_file" "kubeconfig" {
 }
 
 
-/*module "gcp-network" {
+module "gcp-network" {
   source  = "terraform-google-modules/network/google"
   version = ">= 7.5"
 
@@ -267,7 +267,7 @@ resource "google_compute_address" "static" {
   address_type = "EXTERNAL"
   
   # purpose      = "GCE_ENDPOINT"
-}*/
+}
 /*locals {
   helm_chart      = "ingress-nginx"
   helm_repository = "https://kubernetes.github.io/ingress-nginx"
