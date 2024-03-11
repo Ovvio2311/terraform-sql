@@ -296,11 +296,8 @@ resource "helm_release" "nginx_ingress_controller" {
   
   # depends_on = [module.gke]
   
-  dynamic "set" {
-    for_each = local.loadBalancerIP
-    content {
-      name  = "nginx-controller"
-      value = "34.133.82.12"
-    }
+  "set" {    
+      name  = "loadBalancerIP"
+      value = "34.133.82.12"    
   }
 }
