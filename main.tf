@@ -16,7 +16,7 @@ provider "google" {
   region  = "us-central1"
   zone    = "us-central1-c"
 }
-provider "kubernetes" {
+/*provider "kubernetes" {
   host  = "https://${data.google_container_cluster.primary.endpoint}"
   # host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
@@ -31,7 +31,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
   client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
   client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
-}
+}*/
 
 provider "helm" {
   kubernetes {
