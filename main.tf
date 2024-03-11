@@ -4,7 +4,7 @@ data "google_client_config" "default" {
 data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-c"
-  depends_on = [module.gke]
+ # depends_on = [module.gke]
 }
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
@@ -50,7 +50,7 @@ provider "helm" {
 # ----------------------------------------------------------------------------------------
 module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
-  depends_on   = [module.gke]
+ # depends_on   = [module.gke]
   project_id   = var.project_id
   location     = module.gke.location
   cluster_name = module.gke.name
@@ -58,7 +58,7 @@ module "gke_auth" {
 }
 resource "local_file" "kubeconfig" {
   content  = module.gke_auth.kubeconfig_raw
-  filename = "kubeconfig-fyp"
+  filename = "kubeconfig-fyp-new"
   depends_on = [module.gke_auth]
 }
 
