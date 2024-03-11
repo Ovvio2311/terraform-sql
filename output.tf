@@ -56,7 +56,7 @@ output "gke_auth" {
   value = module.gke_auth
   sensitive = true
 }
-output "update_project" {
-  value = data.google_client_config.update
+output "update_token" {
+  value = data.google_client_config.update.access_token
   sensitive = true
 }
