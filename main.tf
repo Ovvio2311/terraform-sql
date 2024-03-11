@@ -293,17 +293,14 @@ resource "helm_release" "nginx_ingress_controller" {
   chart      = "ingress-nginx"
   values     = ["${file("values.yaml")}"]
   create_namespace = true
-  # ip_address = google_compute_address.static.address
-  depends_on = [module.gke]
-  /*set {
-    name  = "service.type"
-    value = "ClusterIP"
-  }
+  
+  # depends_on = [module.gke]
+  
   dynamic "set" {
     for_each = local.loadBalancerIP
     content {
-      name  = set.value.name
-      value = set.value.value
+      name  = "nginx-controller"
+      value = "34.133.82.12"
     }
-  }*/
+  }
 }
