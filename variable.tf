@@ -16,7 +16,7 @@ variable "zones" {
   type        = list(string)
   description = "The zone to host the cluster in (required if is a zonal cluster)"
 }
-
+/*
 variable "network" {
   description = "The VPC network created to host the cluster in"
   default     = "gke-network"
@@ -40,4 +40,4 @@ variable "ip_address" {
   type        = string
   description = "External Static Address for loadbalancer (Doesn't work with AWS)"
   default     = null
-}
+}*/
