@@ -2,12 +2,12 @@ data "google_client_config" "default" {
   
 }
 data "google_client_config" "update" {
-  depends_on = [module.gke]
+  # depends_on = [module.gke]
 }
 data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-c"
-  depends_on = [module.gke]
+  # depends_on = [module.gke]
 }
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
@@ -47,7 +47,7 @@ provider "helm" {
     }
     cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
     client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
-    # cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
+    client_certificate = base64decode(google_container_cluster.primary.master_auth.0.client_certificate)
   }
 }
 # ----------------------------------------------------------------------------------------
