@@ -4,7 +4,7 @@ data "google_client_config" "default" {
 data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-c"
-  # depends_on = [module.gke]
+  depends_on = [module.gke]
 }
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
@@ -13,7 +13,7 @@ provider "google" {
   region  = "us-central1"
   zone    = "us-central1-c"
 }
-provider "kubernetes" {
+/*provider "kubernetes" {
   host  = "https://${data.google_container_cluster.primary.endpoint}"
   # host                   = "https://${module.gke.endpoint}"
   token                  = data.google_client_config.default.access_token
@@ -26,7 +26,7 @@ provider "kubernetes" {
     # command="gke-gcloud-auth-plugin"
   }
   cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
-}
+}*/
 
 provider "helm" {
   kubernetes {
