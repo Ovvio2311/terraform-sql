@@ -1,6 +1,6 @@
 project_id = "able-scope-413414"
 zones = ["us-central1-c"]
-cluster_name = "fyp-vpc-cluster"
+cluster_name = "fyp-cluster"
 region = "us-central1"
 network = "fyp-vpc-network"
 subnetwork = "fyp-vpc-subnetwork"
