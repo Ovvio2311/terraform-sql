@@ -296,7 +296,7 @@ resource "helm_release" "nginx_ingress_controller" {
   
   # depends_on = [module.gke]
   
-  "set" {    
+  set {    
       name  = "loadBalancerIP"
       value = "34.133.82.12"    
   }
