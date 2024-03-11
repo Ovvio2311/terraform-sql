@@ -65,7 +65,7 @@ resource "local_file" "kubeconfig" {
 }
 
 
-/*module "gcp-network" {
+module "gcp-network" {
   source  = "terraform-google-modules/network/google"
   version = ">= 7.5"
 
@@ -111,11 +111,12 @@ module "gke" {
   regional   = false
   region     = var.region
   zones      = slice(var.zones, 0, 1)
-
+  
   network                 = module.gcp-network.network_name
   subnetwork              = module.gcp-network.subnets_names[0]
   ip_range_pods           = var.ip_range_pods_name
   ip_range_services       = var.ip_range_services_name
+  network_policy          = false
   create_service_account  = false
   http_load_balancing     = false
   enable_private_endpoint = false
@@ -269,7 +270,7 @@ resource "google_compute_address" "static" {
   address_type = "EXTERNAL"
   
   # purpose      = "GCE_ENDPOINT"
-}*/
+}
 /*locals {
   helm_chart      = "ingress-nginx"
   helm_repository = "https://kubernetes.github.io/ingress-nginx"
@@ -281,7 +282,7 @@ resource "google_compute_address" "static" {
     }
   ]
 }*/
-/*resource "helm_release" "nginx_ingress_controller" {
+resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
   namespace  = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -301,4 +302,4 @@ resource "google_compute_address" "static" {
       value = set.value.value
     }
   }
-}*/
+}
