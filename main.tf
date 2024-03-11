@@ -279,7 +279,7 @@ resource "google_compute_address" "static" {
     }
   ]
 }*/
-resource "helm_release" "nginx_ingress_controller" {
+/*resource "helm_release" "nginx_ingress_controller" {
   name       = "ingress-nginx"
   namespace  = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -288,7 +288,7 @@ resource "helm_release" "nginx_ingress_controller" {
   create_namespace = true
   # ip_address = google_compute_address.static.address
   # depends_on = [module.gke]
-  /*set {
+  set {
     name  = "service.type"
     value = "ClusterIP"
   }
@@ -298,5 +298,5 @@ resource "helm_release" "nginx_ingress_controller" {
       name  = set.value.name
       value = set.value.value
     }
-  }*/
-}
+  }
+}*/
