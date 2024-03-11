@@ -220,7 +220,7 @@ module "firewall_rules" {
       target_service_accounts = null
       allow = [{
         protocol = "tcp"
-        ports    = ["22","5050","3389","30443","2224","9443"]
+        ports    = ["22","5050","3389","30443","2224","9443","8443"]
       }]
       deny = []
       log_config = {
@@ -292,7 +292,7 @@ resource "helm_release" "nginx_ingress_controller" {
   values     = ["${file("values.yaml")}"]
   create_namespace = true
   # ip_address = google_compute_address.static.address
-  # depends_on = [module.gke]
+  depends_on = [module.gke]
   /*set {
     name  = "service.type"
     value = "ClusterIP"
