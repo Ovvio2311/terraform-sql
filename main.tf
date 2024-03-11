@@ -108,7 +108,7 @@ data "google_compute_subnetwork" "subnetwork" {
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   version = "~> 30.0"
-  service_account= "395033212726-compute@developer.gserviceaccount.com"
+  service_account= "default"
   project_id = var.project_id
   name       = var.cluster_name
   regional   = false
@@ -127,8 +127,7 @@ module "gke" {
   master_ipv4_cidr_block  = "10.0.0.0/24"
   deletion_protection     = false
   remove_default_node_pool= true
-  network_policy          = false
-  # master_version          = "1.29.1-gke.1425000"
+  network_policy          = false  
   kubernetes_version      = "1.29"
   release_channel         = "UNSPECIFIED"
   fleet_project           = "able-scope-413414"
