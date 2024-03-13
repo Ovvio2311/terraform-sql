@@ -36,6 +36,32 @@ provider "helm" {
   }
 }
 # ----------------------------------------------------------------------------------------
+resource "google_compute_network" "private_network" {
+  provider = google-beta
+
+  name = "private-network"
+}
+
+resource "google_compute_global_address" "private_ip_address" {
+  provider = google-beta
+
+  name          = "private-ip-address"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.private_network.id
+}
+resource "google_service_networking_connection" "private_vpc_connection" {
+  provider = google-beta
+
+  network                 = google_compute_network.private_network.id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
+}
+
+resource "random_id" "db_name_suffix" {
+  byte_length = 4
+}
 resource "random_id" "name" {
   byte_length = 2
 }
@@ -43,6 +69,7 @@ resource "random_id" "name" {
 module "mysql-db" {
   source  = "terraform-google-modules/sql-db/google//modules/mysql"
   version = "~> 18.0"
+  depends_on = [google_service_networking_connection.private_vpc_connection]
 
   name                 = var.db_name
   random_instance_name = true
@@ -56,10 +83,11 @@ module "mysql-db" {
 
   ip_configuration = {
     ipv4_enabled        = true
-    private_network     = 10.0.0.0/28
+    private_network     = google_compute_network.private_network.id
     require_ssl         = false
     allocated_ip_range  = null
     authorized_networks = var.authorized_networks
+    enable_private_path_for_google_cloud_services = true
   }
 
 
