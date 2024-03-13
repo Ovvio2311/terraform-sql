@@ -41,14 +41,11 @@ variable "ip_address" {
   description = "External Static Address for loadbalancer (Doesn't work with AWS)"
   default     = null
 }
-variable "project_id" {
-  description = "The ID of the project in which resources will be provisioned."
-  type        = string
-}
+
 
 variable "db_name" {
   description = "The name of the SQL Database instance"
-  default     = "example-mysql-public"
+  default     = "fyp-mysql-public"
 }
 
 variable "authorized_networks" {
