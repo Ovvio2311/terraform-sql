@@ -58,7 +58,7 @@ module "mysql-db" {
 
   name                 = var.db_name
   random_instance_name = true
-  database_version     = "MYSQL_5_6"
+  database_version     = "MYSQL_8_0"
   project_id           = var.project_id
   zone                 = "us-central1-c"
   region               = "us-central1"
@@ -69,7 +69,7 @@ module "mysql-db" {
   ip_configuration = {
     ipv4_enabled        = true
     private_network     = null
-    require_ssl         = true
+    require_ssl         = false
     allocated_ip_range  = null
     authorized_networks = var.authorized_networks
   }
