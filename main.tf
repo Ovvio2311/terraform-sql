@@ -46,8 +46,7 @@ resource "random_id" "name" {
 
 module "mysql-db" {
   source  = "terraform-google-modules/sql-db/google//modules/mysql"
-  version = "~> 18.0"
-  depends_on = [google_service_networking_connection.private_vpc_connection]
+  version = "~> 18.0"  
 
   name                 = var.db_name
   random_instance_name = true
