@@ -36,8 +36,7 @@ provider "helm" {
   }
 }
 # ----------------------------------------------------------------------------------------
-resource "google_compute_global_address" "private_ip_address" {
-  provider = google-beta
+resource "google_compute_global_address" "private_ip_address" { 
 
   name          = "private-ip-address"
   purpose       = "VPC_PEERING"
@@ -46,8 +45,6 @@ resource "google_compute_global_address" "private_ip_address" {
   network       = "fyp-vpc"
 }
 resource "google_service_networking_connection" "private_vpc_connection" {
-  provider = google-beta
-
   network                 = "fyp-vpc"
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
