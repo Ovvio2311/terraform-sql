@@ -36,7 +36,7 @@ provider "helm" {
   }
 }
 # ----------------------------------------------------------------------------------------
-resource "google_compute_global_address" "private_ip_address" { 
+/*resource "google_compute_global_address" "private_ip_address" { 
 
   name          = "private-ip-address"
   purpose       = "VPC_PEERING"
@@ -48,7 +48,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   network                 = "projects/able-scope-413414/global/networks/default"
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
-}
+}*/
 resource "random_id" "db_name_suffix" {
   byte_length = 4
 }
@@ -59,7 +59,7 @@ resource "random_id" "name" {
 module "mysql-db" {
   source  = "terraform-google-modules/sql-db/google//modules/mysql"
   version = "~> 18.0"  
-  depends_on = [google_service_networking_connection.private_vpc_connection]
+ # depends_on = [google_service_networking_connection.private_vpc_connection]
   name                 = var.db_name
   random_instance_name = true
   database_version     = "MYSQL_8_0"
@@ -75,7 +75,7 @@ module "mysql-db" {
 
   ip_configuration = {
     ipv4_enabled        = true
-    private_network     = "projects/able-scope-413414/global/networks/default"
+    # private_network     = "projects/able-scope-413414/global/networks/default"
     require_ssl         = false
     # allocated_ip_range  = "google-managed-services-fyp"
     authorized_networks = var.authorized_networks
