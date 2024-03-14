@@ -78,12 +78,15 @@ module "mysql-db" {
   zone                 = "us-central1-c"
   region               = "us-central1"
   tier                 = "db-n1-standard-1"
-
-  deletion_protection = false
+  edition              = "ENTERPRISE"
+  root_password        = "3Dp1&MBZ"
+  deletion_protection  = false
+  availability_type    = "ZONAL"
+  disk_type            = "PD_SSD"
 
   ip_configuration = {
     ipv4_enabled        = true
-    private_network     = google_compute_network.private_network.id
+    private_network     = "fyp-vpc"
     require_ssl         = false
     allocated_ip_range  = null
     authorized_networks = var.authorized_networks
