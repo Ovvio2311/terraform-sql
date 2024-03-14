@@ -65,7 +65,7 @@ module "mysql-db" {
     ipv4_enabled        = true
     private_network     = "https://www.googleapis.com/compute/v1/projects/able-scope-413414/global/networks/fyp-vpc"
     require_ssl         = false
-    allocated_ip_range  = "10.0.0.0/24"
+    allocated_ip_range  = "google-managed-services-fyp"
     authorized_networks = var.authorized_networks
     enable_private_path_for_google_cloud_services = true
   }
