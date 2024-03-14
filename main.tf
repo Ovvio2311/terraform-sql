@@ -79,7 +79,7 @@ module "mysql-db" {
     require_ssl         = false
     # allocated_ip_range  = "google-managed-services-fyp"
     authorized_networks = var.authorized_networks
-    enable_private_path_for_google_cloud_services = true
+    # enable_private_path_for_google_cloud_services = true
   }
 
 
