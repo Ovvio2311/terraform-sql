@@ -10,7 +10,7 @@ data "google_container_cluster" "primary" {
 
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
-  project = "able-scope-413414"
+  project = var.project_id
   region  = "us-central1"
   zone    = "us-central1-c"
 }
