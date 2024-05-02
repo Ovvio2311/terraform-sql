@@ -49,6 +49,18 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
 }*/
+resource "google_project_service" "project" {
+  project = "proven-fort-421209"
+  service = "sqladmin.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+
+  disable_dependent_services = true
+}
+
 resource "random_id" "db_name_suffix" {
   byte_length = 4
 }
