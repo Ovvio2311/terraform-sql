@@ -2,11 +2,11 @@
 data "google_client_config" "default" {  
 }
 
-data "google_container_cluster" "primary" {
+/*data "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-c"
   
-}
+}*/
 
 provider "google" {
   # credentials = file("/mnt/c/Users/jackyli/Downloads/able-scope-413414-d1f3a6012760.json")
@@ -15,7 +15,7 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-
+/*
 provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
@@ -34,7 +34,7 @@ provider "helm" {
     client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
     client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
   }
-}
+}*/
 # ----------------------------------------------------------------------------------------
 /*resource "google_compute_global_address" "private_ip_address" { 
 
