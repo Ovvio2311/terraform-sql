@@ -1,4 +1,4 @@
-project_id = "direct-topic-422109"
+project_id = "vertical-veld-426212-h1"
 zones = ["us-central1-c"]
 cluster_name = "fyp-vpc-cluster"
 region = "us-central1"
